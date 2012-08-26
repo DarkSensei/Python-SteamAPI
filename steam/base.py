@@ -3,17 +3,20 @@ from urllib.request import urlopen
 
 class json_request(object):
 
-    def __init__(self, api_key):
-        """Creates the object and sets the Steam API Key"""
-        self.api_key = api_key
-
-    def _compose_url(self, base_url, **kwargs):
+    def _compose_url(self, base_url, use_ssl = False, **kwargs):
         """Composes a url used to download data"""
+        api_key = '?key=' + _api_key
+        url_list = [base_url, api_key]
         if not base_url[-1] == '/':
             base_url += '/'
-        api_key = '?key=' + self.api_key
-        url_list = [base_url, api_key]
-        for k, v in kwargs:
+        if not base_url[:8] == 'https://' or base_url[:7] == 'http://':
+            temp_list = []
+            if use_ssl:
+                temp_list.append('https://')
+            else:
+                temp_list.append('http://')
+            url_list = temp_list + url_list
+        for k, v in kwargs.items():
             url_list.append(str('&' + k + '=' + v))
         self.url = ''.join(url_list)
         return self.url
@@ -41,3 +44,6 @@ class json_request(object):
             return_vals.append(vals)
         return return_vals
 
+def set_api_key(api_key):
+    global _api_key
+    _api_key = api_key

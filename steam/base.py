@@ -3,9 +3,17 @@ from urllib.request import urlopen
 
 class json_request(object):
 
+    def __init__(self, api_key = None):
+        self.api_key = api_key
+
+    def _if_key_assigned(self):
+        if self.api_key:
+            return True
+        return False
+
     def _compose_url(self, base_url, use_ssl = False, **kwargs):
         """Composes a url used to download data"""
-        api_key = '?key=' + _api_key
+        api_key = '?key=' + str(self.api_key)
         url_list = [base_url, api_key]
         if not base_url[-1] == '/':
             base_url += '/'
@@ -17,7 +25,7 @@ class json_request(object):
                 temp_list.append('http://')
             url_list = temp_list + url_list
         for k, v in kwargs.items():
-            url_list.append(str('&' + k + '=' + v))
+            url_list.append('&' + str(k) + '=' + str(v))
         self.url = ''.join(url_list)
         return self.url
 
@@ -43,7 +51,3 @@ class json_request(object):
                     vals = vals[arg]
             return_vals.append(vals)
         return return_vals
-
-def set_api_key(api_key):
-    global _api_key
-    _api_key = api_key

@@ -1,7 +1,7 @@
 import json
 from urllib.request import urlopen
 
-class json_request(object):
+class api_request(object):
 
     def __init__(self, api_key = None):
         self.api_key = api_key
@@ -29,7 +29,7 @@ class json_request(object):
         self.url = ''.join(url_list)
         return self.url
 
-    def _download(self, url = None):
+    def _download_json(self, url = None):
         """Downloads json data of the passed url, or uses self.url"""
         if not url:
             url = self.url
@@ -51,4 +51,13 @@ class json_request(object):
                     vals = vals[arg]
             return_vals.append(vals)
         return return_vals
-    
+
+    def json_request(self, base_url, params, get_vals = None):
+        self._compose_url(base_url, params)
+        self._download_json()
+        return self._get(get_vals)
+
+    def _get_replay_location(self, cluster, match_id, replay_salt):
+        replay_url = "http://replay" + cluster + ".valve.net/570/" + match_id + "_" + replay_salt + ".dem.bz2"
+
+

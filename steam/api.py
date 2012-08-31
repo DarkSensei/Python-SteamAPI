@@ -5,46 +5,57 @@ class SteamUser(json_request):
     def __init__(self, api_key = None):
         super().__init__(api_key)
 
-    def getPlayerSummaries(self, steamids, get_values = None):
+    def getPlayerSummaries(self, params, get_vals = None):
         base_url = 'api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/'
-        if type(steamids).__name__ == 'list' or type(steamids).__name__ == 'tuple':
-            steamids = ','.join(steamids)
-        kwargs = {'steamids':steamids}
-        self._compose_url(base_url, **kwargs)
+        self._compose_url(base_url, params)
         self._download()
-        return self._get(get_values)
+        return self._get(get_vals)
 
-    def getPlayerAchievements(self, steamid, appid, lang, get_values = None):
+    def getPlayerAchievements(self, params, get_vals = None):
         base_url = 'api.steampowered.com/ISteamUserStats/GetPlayerAchievements/v0001/'
-        kwargs = {'appid':appid, 'steamid':steamid, 'l':lang}
-        self._compose_url(base_url, **kwargs)
+        self._compose_url(base_url, params)
         self._download()
-        return self._get(get_values)
+        return self._get(get_vals)
 
-    def getFriendList(self, steamid, rel = 'friend', get_values = None):
+    def getFriendList(self, params, get_vals = None):
         base_url = 'api.steampowered.com/ISteamUser/GetFriendList/v0001/'
-        kwargs = {'steamid':steamid, 'relationship':rel}
-        self._compose_url(base_url, **kwargs)
+        self._compose_url(base_url, params)
         self._download()
-        return self._get(get_values)
+        return self._get(get_vals)
 
 class SteamApp(json_request):
 
     def __init__(self, api_key = None):
         super().__init__(api_key)
 
-    def getNewsForApp(self, appid, count, maxlength, get_values = None):
+    def getNewsForApp(self, params, get_vals = None):
         base_url = 'api.steampowered.com/ISteamNews/GetNewsForApp/v0002/'
-        kwargs = {'appid':appid, 'count':count, 'maxlength':maxlength}
-        self._compose_url(base_url, **kwargs)
+        self._compose_url(base_url, params)
         self._download()
-        return self._get(get_values)
+        return self._get(get_vals)
 
-    def getGlobalAchievementPercentagesForApp(self, appid, get_values = None):
+    def getGlobalAchievementPercentagesForApp(self, params, get_vals = None):
         base_url = 'api.steampowered.com/ISteamUserStats/GetGlobalAchievementPercentagesForApp/v0002/'
-        kwargs = {'gameid':appid}
-        self._compose_url(base_url, **kwargs)
+        self._compose_url(base_url, params)
         self._download()
-        return self._get(get_values)
+        return self._get(get_vals)
+
+class DotaUser(json_request):
+
+    def __init__(self, api_key = None):
+        super().__init__(api_key)
+
+    def getMatchHistory(self, params, get_vals = None):
+        base_url = 'api.steampowered.com/IDOTA2Match_570/GetMatchHistory/V001/'
+        self._compose_url(base_url, params)
+        self._download()
+        return self._get(get_vals)
+
+    def getMatch(self, params, get_vals = None):
+        base_url = 'api.steampowered.com/IDOTA2Match_570/GetMatchDetails/V001'
+        self._compose_url(base_url, params)
+        self._download()
+        return self._get(get_vals)
+
 
 

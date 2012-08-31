@@ -11,7 +11,7 @@ class json_request(object):
             return True
         return False
 
-    def _compose_url(self, base_url, use_ssl = False, **kwargs):
+    def _compose_url(self, base_url, params, use_ssl = True):
         """Composes a url used to download data"""
         api_key = '?key=' + str(self.api_key)
         url_list = [base_url, api_key]
@@ -24,7 +24,7 @@ class json_request(object):
             else:
                 temp_list.append('http://')
             url_list = temp_list + url_list
-        for k, v in kwargs.items():
+        for k, v in params.items():
             url_list.append('&' + str(k) + '=' + str(v))
         self.url = ''.join(url_list)
         return self.url
@@ -51,3 +51,4 @@ class json_request(object):
                     vals = vals[arg]
             return_vals.append(vals)
         return return_vals
+    

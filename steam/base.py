@@ -1,5 +1,8 @@
 import json
-from urllib.request import urlopen
+try:
+    from urllib2 import urlopen
+except:
+    from urllib.request import urlopen
 
 class api_request(object):
 
